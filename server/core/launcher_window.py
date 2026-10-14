@@ -41,6 +41,7 @@ from tavern_shared.flashing import start_flashing_button
 from server.core.auth_service import (
     start_auth_service, AUTH_PORT, build_console_token, build_server_tokens,
 )
+from server.core.server_runner import build_server_args
 from server.core.console_window import ConsoleWindow
 from server.core.tickets_window import TicketsWindow
 from server.core.player_manager import PlayerManagerWindow
@@ -727,16 +728,11 @@ class ServerLauncher(tk.Tk):
         if not self._auth_on:
             start_auth_service(self._print)
             self._auth_on = True
-        args = [exe, "/force_offline",
-                "/access_token", access, "/refresh_token", refresh,
-                "/identity_token", identity]
-        if not self.v_show_game.get():
-            args += ["-batchmode", "-nographics"]
-        args += ["/fly", "/launcherauth", "/start_server", "-1", "false", str(port)]
-        if self.v_debug_helper.get():
-            args.append("/debug_helper")
-        if self.v_quest_scene.get():
-            args.append("/questScene")
+        args = build_server_args(
+            exe, port, access, refresh, identity,
+            show_game=self.v_show_game.get(),
+            debug_helper=self.v_debug_helper.get(),
+            quest_scene=self.v_quest_scene.get())
         self._print(f"Opening server on port {port}…", "warn")
         try:
             # Whether MelonLoader's console shows up is controlled by the

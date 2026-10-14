@@ -16,13 +16,13 @@ import unicodedata
 
 FAIL_LIMIT, FAIL_WINDOW = 8, 60
 
-from tavern_shared.paths import _app_dir, _tavern_data_dir, _sha256_file, _migrate_legacy_file
+from tavern_shared.paths import _app_dir, _appdata_roaming, _tavern_data_dir, _sha256_file, _migrate_legacy_file
 from tavern_shared.ws_console_client import WsConsoleClient
 
-GAME_LOG_PATH = os.path.join(os.path.expanduser("~"), "AppData", "Roaming",
+GAME_LOG_PATH = os.path.join(_appdata_roaming(),
     "A Township Tale", "Servers", "-1", "Logs", "logs", "unity-log.csv")
 
-PLAYERS_SAVE   = os.path.join(os.path.expanduser("~"),"AppData","Roaming",
+PLAYERS_SAVE   = os.path.join(_appdata_roaming(),
     "A Township Tale","Servers","-1","Save","Players")
 
 

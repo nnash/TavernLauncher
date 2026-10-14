@@ -13,6 +13,14 @@ def _app_dir():
     return os.path.dirname(os.path.abspath(__file__))
 
 
+def _appdata_roaming():
+    """The Windows-style %APPDATA% root. The game (and, on Windows, this
+    launcher) both resolve it from the APPDATA env var; a headless/Docker
+    run points that var at the Wine prefix's Roaming folder so the native
+    Python launcher and the Wine-hosted game agree on one location."""
+    return os.environ.get("APPDATA", os.path.join(os.path.expanduser("~"), "AppData", "Roaming"))
+
+
 def _tavern_data_dir():
     """The one shared place BOTH launchers' persistent data lives --
     config, tokens, macros, custom assets, the player database,
@@ -24,8 +32,7 @@ def _tavern_data_dir():
     Patch/ folder and per-game-install files like .tavern_mods_meta.json
     deliberately stay where they are -- see the comments at their own
     definitions for why.)"""
-    base = os.environ.get("APPDATA", os.path.join(os.path.expanduser("~"), "AppData", "Roaming"))
-    path = os.path.join(base, "TheModdingTavern")
+    path = os.path.join(_appdata_roaming(), "TheModdingTavern")
     try: os.makedirs(path, exist_ok=True)
     except Exception: pass
     return path

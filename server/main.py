@@ -14,10 +14,11 @@ import traceback
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+from tavern_shared.paths import _appdata_roaming
+
 
 def _addon_log_path():
-    base = os.environ.get("APPDATA", os.path.join(os.path.expanduser("~"), "AppData", "Roaming"))
-    path = os.path.join(base, "TheModdingTavern")
+    path = os.path.join(_appdata_roaming(), "TheModdingTavern")
     try:
         os.makedirs(path, exist_ok=True)
     except Exception:

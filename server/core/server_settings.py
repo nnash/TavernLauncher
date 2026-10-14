@@ -6,6 +6,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, simpledialog
 import threading, time, json
 
+from tavern_shared.paths import _appdata_roaming
 from tavern_shared.theme import (
     BG, SURF, SURF2, BORDER, AMBER, AMBERDIM, PARCH, MUTED, GREEN, RED, CYAN, MONO,
     _btn, _field, _hint, _section_label, _mk_tree, _mk_scrollbar, _fix_combobox_popdown_colors,
@@ -207,9 +208,7 @@ class ServerSettingsWindow(tk.Toplevel):
         AdvancedSettingsWindow(self)
 
     def _wipe_server(self):
-        target = os.path.join(
-            os.environ.get("APPDATA", os.path.join(os.path.expanduser("~"), "AppData", "Roaming")),
-            "A Township Tale", "Servers")
+        target = os.path.join(_appdata_roaming(), "A Township Tale", "Servers")
         if not messagebox.askyesno("Wipe Server Data",
                 "This will permanently delete:\n\n"
                 f"{target}\n\n"

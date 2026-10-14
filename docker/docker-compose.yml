@@ -1,0 +1,21 @@
+services:
+  tavern-server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    restart: unless-stopped
+    stop_grace_period: 30s
+    environment:
+      TAVERN_SERVER_EXE: "/game/A Township Tale.exe"
+      TAVERN_SERVER_PORT: "1757"
+      # TAVERN_AUTO_PATCH: "0"   # skip applying themoddingtavern.dll
+    ports:
+      - "1757-1762:1757-1762/tcp"
+      - "1757-1762:1757-1762/udp"
+    volumes:
+      - ..:/launcher:ro,z               # this repo (launcher source)
+      - ${GAME_DIR:?set GAME_DIR to the A Township Tale install folder}:/game:z
+      - tavern-wine:/wine               # Wine prefix: saves, logs, launcher data
+
+volumes:
+  tavern-wine:
